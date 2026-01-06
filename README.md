@@ -27,7 +27,7 @@ Nous déployons une architecture **Hybride (Multi-Cloud)** et **Haute Disponibil
 
 C'est ici qu'on évite la confusion.
 
-### 🏗️ Terraform : Le Maçon (Infrastructure Provisioning)
+### 🏗️ Terraform : (Infrastructure Provisioning)
 Terraform construit les "murs" de la maison. Il parle à l'API AWS.
 *   **Ce qu'il gère :**
     *   Le réseau (VPC, Subnets, Route Tables).
@@ -36,7 +36,7 @@ Terraform construit les "murs" de la maison. Il parle à l'API AWS.
     *   Les définitions de scaling (Auto Scaling Group, Launch Template).
 *   **Commandes clés :** `terraform plan`, `terraform apply`.
 
-### 🛠️ Ansible / User Data : L'Électricien & Décorateur (Configuration Management)
+### 🛠️ Ansible / User Data : (Configuration Management)
 Une fois les murs construits (EC2 lancée), il faut installer les logiciels.
 *   **Ce qu'il gère :**
     *   Mise à jour Linux (`dnf update`).
@@ -47,7 +47,7 @@ Une fois les murs construits (EC2 lancée), il faut installer les logiciels.
     *   Pour gagner du temps, nous n'utiliserons pas un serveur Ansible maître complexe.
     *   Nous injecterons un script **Bash** (via le `user_data` Terraform) qui agit comme un playbook Ansible local au démarrage de chaque instance.
 
-### ☁️ Cloudflare : Le Vigile & L'Entrepôt
+### ☁️ Cloudflare 
 *   **Sécurité :** Bloque les attaques avant qu'elles ne touchent AWS (et ne coûtent de l'argent).
 *   **Stockage (R2) :** Remplace AWS S3.
     *   *Avantage :* 0 $ de frais de sortie (Egress fees). Sur AWS, télécharger des images coûte cher. Sur Cloudflare R2, c'est gratuit.
@@ -78,7 +78,7 @@ Une fois les murs construits (EC2 lancée), il faut installer les logiciels.
     *   Stocke les sessions utilisateurs. Si une instance App meurt, l'utilisateur ne est pas déconnecté car sa session est dans Redis.
     *   Type : `cache.t3.micro` (Suffisant et pas cher).
 
-### Phase C : L'Application (Le Moteur)
+### Phase C : L'Application
 *Dockerisation pour la portabilité.*
 
 1.  **L'Image Docker :**
@@ -89,7 +89,7 @@ Une fois les murs construits (EC2 lancée), il faut installer les logiciels.
     *   On le configure avec l'endpoint S3 de Cloudflare : `https://<account_id>.r2.cloudflarestorage.com`.
     *   Résultat : Quand l'admin upload une photo produit, elle part direct chez Cloudflare, pas sur le disque du serveur.
 
-### Phase D : Le Scaling (L'Élasticité)
+### Phase D : Le Scaling 
 
 1.  **Launch Template :**
     *   C'est le "moule" des serveurs. Il contient le script de démarrage (`user_data`).
@@ -169,4 +169,3 @@ Comme les instances sont privées, on passe par le "Session Manager" (SSM) ou on
 ```bash
 aws ssm start-session --target i-0123456789abcdef0
 ```
-
