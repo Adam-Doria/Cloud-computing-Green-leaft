@@ -1,0 +1,55 @@
+---
+- name: Configuration du Socle Technique GreenLeaf (Amazon Linux 2023)
+  hosts: localhost
+  connection: local
+  become: yes
+
+  vars:
+    docker_compose_version: "v2.29.0"
+    docker_compose_path: "/usr/local/lib/docker/cli-plugins/docker-compose"
+
+  tasks:
+    - name: 1. Mise à jour de tous les paquets du système
+      ansible.builtin.dnf:
+        name: "*"
+        state: latest
+        update_cache: yes
+
+    - name: 2. Installation des dépendances système et outils
+      ansible.builtin.dnf:
+        name:
+          - git
+          - htop
+          - vim
+          - nano
+          - curl
+          - docker
+          - libxcrypt-compat
+        state: present
+        allowerasing: yes
+
+    - name: 3. Démarrage et activation du service Docker
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: 4. Ajout de l'utilisateur ec2-user au groupe docker
+      ansible.builtin.user:
+        name: ec2-user
+        groups: docker
+        append: yes
+
+    - name: 5. Création du dossier pour le plugin Docker Compose
+      ansible.builtin.file:
+        path: "/usr/local/lib/docker/cli-plugins"
+        state: directory
+        mode: '0755'
+
+    - name: 6. Installation de Docker Compose V2 (Binaire officiel)
+      ansible.builtin.get_url:
+        url: "https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-linux-x86_64"
+        dest: "{{ docker_compose_path }}"
+        mode: '0755'
+        owner: root
+        group: root

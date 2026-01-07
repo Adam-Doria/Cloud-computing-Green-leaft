@@ -37,3 +37,5 @@ override.tf.json
 terraform.rc
 
 .env
+repomix-output.xml
+.idea
