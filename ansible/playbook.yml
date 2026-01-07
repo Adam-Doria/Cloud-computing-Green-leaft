@@ -2,7 +2,7 @@
 - name: Configuration du Socle Technique GreenLeaf (Amazon Linux 2023)
   hosts: localhost
   connection: local
-  become: yes
+  become: true
 
   vars:
     docker_compose_version: "v2.29.0"
