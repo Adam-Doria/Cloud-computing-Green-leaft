@@ -78,3 +78,8 @@ output "data_security_group_id" {
   description = "ID du Security Group data"
   value       = aws_security_group.data_sg.id
 }
+
+output "alb_dns_name" {
+  description = "URL DNS publique de l'ALB"
+  value       = aws_lb.main.dns_name
+}
