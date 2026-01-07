@@ -13,7 +13,7 @@
       ansible.builtin.dnf:
         name: "*"
         state: latest
-        update_cache: yes
+        update_cache: true
 
     - name: 2. Installation des dépendances système et outils
       ansible.builtin.dnf:
@@ -26,19 +26,19 @@
           - docker
           - libxcrypt-compat
         state: present
-        allowerasing: yes
+        allowerasing: true
 
     - name: 3. Démarrage et activation du service Docker
       ansible.builtin.service:
         name: docker
         state: started
-        enabled: yes
+        enabled: true
 
     - name: 4. Ajout de l'utilisateur ec2-user au groupe docker
       ansible.builtin.user:
         name: ec2-user
         groups: docker
-        append: yes
+        append: true
 
     - name: 5. Création du dossier pour le plugin Docker Compose
       ansible.builtin.file:
