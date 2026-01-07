@@ -2,13 +2,13 @@
 resource "aws_vpc" "main" {
   cidr_block           = "10.0.0.0/16"
   enable_dns_hostnames = true
-  tags                 = { Name = "vpc-greenleaf" }
+  tags                 = { Name = "greenleaf-groupe2-vpc" }
 }
 
 # Internet Gateway (Sortie vers le monde)
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
-  tags   = { Name = "greenleaf-igw" }
+  tags   = { Name = "greenleaf-groupe2-igw" }
 }
 
 # --- 2 SOUS-RÉSEAUX PUBLICS (Pour les NAT Instances) ---
@@ -17,7 +17,7 @@ resource "aws_subnet" "public_a" {
   cidr_block        = "10.0.1.0/24"
   availability_zone = "eu-west-3a"
   map_public_ip_on_launch = true
-  tags = { Name = "public-subnet-a" }
+  tags = { Name = "greenleaf-groupe2-public-a" }
 }
 
 resource "aws_subnet" "public_b" {
@@ -25,7 +25,7 @@ resource "aws_subnet" "public_b" {
   cidr_block        = "10.0.2.0/24"
   availability_zone = "eu-west-3b"
   map_public_ip_on_launch = true
-  tags = { Name = "public-subnet-b" }
+  tags = { Name = "greenleaf-groupe2-public-b" }
 }
 
 # --- 2 SOUS-RÉSEAUX PRIVÉS APP (Pour Medusa/Magento) ---
@@ -33,14 +33,14 @@ resource "aws_subnet" "private_app_a" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.10.0/24"
   availability_zone = "eu-west-3a"
-  tags = { Name = "private-app-subnet-a" }
+  tags = { Name = "greenleaf-groupe2-private-app-a" }
 }
 
 resource "aws_subnet" "private_app_b" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.20.0/24"
   availability_zone = "eu-west-3b"
-  tags = { Name = "private-app-subnet-b" }
+  tags = { Name = "greenleaf-groupe2-private-app-b" }
 }
 
 # --- 2 SOUS-RÉSEAUX PRIVÉS DATA (Pour RDS / Redis) ---
@@ -48,14 +48,14 @@ resource "aws_subnet" "private_data_a" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.30.0/24"
   availability_zone = "eu-west-3a"
-  tags = { Name = "private-data-subnet-a" }
+  tags = { Name = "greenleaf-groupe2-private-data-a" }
 }
 
 resource "aws_subnet" "private_data_b" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = "10.0.40.0/24"
   availability_zone = "eu-west-3b"
-  tags = { Name = "private-data-subnet-b" }
+  tags = { Name = "greenleaf-groupe2-private-data-b" }
 }
 
 # Table Publique (Tout vers l'IGW) -----------------------------

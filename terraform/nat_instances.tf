@@ -16,7 +16,7 @@ data "aws_ami" "amazon_linux_2023" {
 
 # 2. Security Group pour les NAT (Autorise le trafic interne du VPC)
 resource "aws_security_group" "nat_sg" {
-  name   = "greenleaf-nat-sg"
+  name   = "greenleaf-groupe2-nat-sg"
   vpc_id = aws_vpc.main.id
 
   ingress {
@@ -52,7 +52,7 @@ resource "aws_instance" "nat_a" {
               systemctl enable iptables
               systemctl start iptables
               EOF
-  tags = { Name = "nat-instance-a" }
+  tags = { Name = "greenleaf-groupe2-nat-a" }
 }
 
 # 4. Instance NAT dans la Zone B
@@ -64,5 +64,5 @@ resource "aws_instance" "nat_b" {
   source_dest_check      = false
   
   user_data = aws_instance.nat_a.user_data
-  tags = { Name = "nat-instance-b" }
+  tags = { Name = "greenleaf-groupe2-nat-b" }
 }
