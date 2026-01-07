@@ -21,6 +21,7 @@
           - git
           - htop
           - vim
+          - nano
           - curl
           - docker
           - libxcrypt-compat
