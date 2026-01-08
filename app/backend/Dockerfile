@@ -24,7 +24,7 @@ FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
-COPY --from=builder /app/.medusa/server ./dist
+COPY --from=builder /app/.medusa /app/.medusa
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 COPY --from=builder /app/medusa-config.ts ./medusa-config.ts
@@ -37,7 +37,7 @@ RUN adduser --system --uid 1001 medusa
 RUN chown -R medusa:nodejs /app
 USER medusa
 
-RUN yarn build
+
 
 EXPOSE 9000
 
