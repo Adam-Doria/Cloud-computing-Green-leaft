@@ -15,7 +15,6 @@ module.exports = defineConfig({
                 },
             },
         },
-        // Redis est maintenant configuré ici pour le cache et les événements
         redisUrl: process.env.REDIS_URL,
         http: {
             storeCors: process.env.STORE_CORS!,
@@ -27,18 +26,17 @@ module.exports = defineConfig({
     },
     admin: {
         disable: false,
-        path: `/app`,
+        path: "/app",
         backendUrl: process.env.MEDUSA_BACKEND_URL,
         vite: () => {
             return {
                 server: {
-                    allowedHosts: ['.amazonaws.com'],
+                    allowedHosts: ['.amazonaws.com', 'localhost'],
                 },
             }
         },
     },
     modules: [
-        // Configuration du stockage S3 (Cloudflare R2)
         {
             resolve: "@medusajs/medusa/file",
             options: {
@@ -50,22 +48,20 @@ module.exports = defineConfig({
                             file_url: process.env.S3_URL,
                             access_key_id: process.env.S3_ACCESS_KEY_ID,
                             secret_access_key: process.env.S3_SECRET_ACCESS_KEY,
-                            region: "auto", // Cloudflare R2 utilise souvent "auto" ou "us-east-1"
-                            bucket: "greenleaf-media", // Nom de ton bucket
+                            region: "auto",
+                            bucket: "greenleaf-media",
                             endpoint: process.env.S3_URL,
                         },
                     },
                 ],
             },
         },
-        // Configuration Redis pour le Pub/Sub (Événements)
         {
             resolve: "@medusajs/medusa/event-bus-redis",
             options: {
                 redisUrl: process.env.REDIS_URL
             },
         },
-        // Configuration Redis pour le Cache
         {
             resolve: "@medusajs/medusa/cache-redis",
             options: {
