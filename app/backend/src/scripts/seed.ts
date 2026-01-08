@@ -354,7 +354,7 @@ export default async function seedDemoData({ container }: ExecArgs) {
             title: "Webshop",
             type: "publishable",
             created_by: "",
-            token: process.env.MEDUSA_PUBLISHABLE_KEY || "pk_test_defaut",
+            // token: process.env.MEDUSA_PUBLISHABLE_KEY || "pk_test_defaut",
           },
         ],
       },
