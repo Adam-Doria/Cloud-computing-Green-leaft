@@ -5,6 +5,16 @@ loadEnv(process.env.NODE_ENV || 'development', process.cwd())
 module.exports = defineConfig({
     projectConfig: {
         databaseUrl: process.env.DATABASE_URL,
+        databaseDriverOptions: {
+            ssl: {
+                rejectUnauthorized: false,
+            },
+            connection: {
+                ssl: {
+                    rejectUnauthorized: false,
+                },
+            },
+        },
         // Redis est maintenant configuré ici pour le cache et les événements
         redisUrl: process.env.REDIS_URL,
         http: {
