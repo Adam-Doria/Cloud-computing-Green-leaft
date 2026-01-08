@@ -11,45 +11,41 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-  try {
-    const countryCodes = await listRegions().then((regions) =>
-      regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
-    )
+    try {
+        const { collections } = await listCollections({
+            fields: "*products",
+        })
 
-    if (!countryCodes) {
-      return []
+        if (!collections) {
+            return []
+        }
+
+        const countryCodes = await listRegions().then(
+            (regions: StoreRegion[]) =>
+                regions
+                    ?.map((r) => r.countries?.map((c) => c.iso_2))
+                    .flat()
+                    .filter(Boolean) as string[]
+        )
+
+        const collectionHandles = collections.map(
+            (collection: StoreCollection) => collection.handle
+        )
+
+        const staticParams = countryCodes
+            ?.map((countryCode: string) =>
+                collectionHandles.map((handle: string | undefined) => ({
+                    countryCode,
+                    handle,
+                }))
+            )
+            .flat()
+
+        return staticParams || []
+    } catch (error) {
+        // Si le backend n'est pas accessible (ex: build Docker), on retourne un tableau vide.
+        return []
     }
-
-    const promises = countryCodes.map(async (country) => {
-      const { response } = await listProducts({
-        countryCode: country,
-        queryParams: { limit: 100, fields: "handle" },
-      })
-
-      return {
-        country,
-        products: response.products,
-      }
-    })
-
-    const countryProducts = await Promise.all(promises)
-
-    return countryProducts
-      .flatMap((countryData) =>
-        countryData.products.map((product) => ({
-          countryCode: countryData.country,
-          handle: product.handle,
-        }))
-      )
-      .filter((param) => param.handle)
-  } catch (error) {
-    console.error(
-      `Failed to generate static paths for product pages: ${
-        error instanceof Error ? error.message : "Unknown error"
-      }.`
-    )
-    return []
-  }
 }
 
 function getImagesForVariant(

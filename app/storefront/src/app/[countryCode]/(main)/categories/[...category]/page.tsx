@@ -16,30 +16,36 @@ type Props = {
 }
 
 export async function generateStaticParams() {
-  const product_categories = await listCategories()
+    try {
+        const product_categories = await listCategories()
 
-  if (!product_categories) {
-    return []
-  }
+        if (!product_categories) {
+            return []
+        }
 
-  const countryCodes = await listRegions().then((regions: StoreRegion[]) =>
-    regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
-  )
+        const countryCodes = await listRegions().then((regions: StoreRegion[]) =>
+            regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
+        )
 
-  const categoryHandles = product_categories.map(
-    (category: any) => category.handle
-  )
+        const categoryHandles = product_categories.map(
+            (category: any) => category.handle
+        )
 
-  const staticParams = countryCodes
-    ?.map((countryCode: string | undefined) =>
-      categoryHandles.map((handle: any) => ({
-        countryCode,
-        category: [handle],
-      }))
-    )
-    .flat()
+        const staticParams = countryCodes
+            ?.map((countryCode: string | undefined) =>
+                categoryHandles.map((handle: any) => ({
+                    countryCode,
+                    category: [handle],
+                }))
+            )
+            .flat()
 
-  return staticParams
+        return staticParams || []
+    } catch (error) {
+        // Si le backend n'est pas accessible (ex: build Docker), on retourne un tableau vide.
+        // Next.js générera les pages à la volée lors de la première visite.
+        return []
+    }
 }
 
 export async function generateMetadata(props: Props): Promise<Metadata> {
