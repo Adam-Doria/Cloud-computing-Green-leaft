@@ -13,6 +13,9 @@ FROM base AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+# Variables factices pour le build (la vraie config vient du runtime)
+ENV DATABASE_URL=postgres://fake:fake@localhost:5432/fake
+ENV REDIS_URL=redis://localhost:6379
 RUN yarn build
 
 # --- Runner ---
