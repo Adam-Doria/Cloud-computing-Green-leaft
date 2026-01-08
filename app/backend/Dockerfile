@@ -23,17 +23,18 @@ ENV REDIS_URL=redis://localhost:6379
 # C'est ici que l'admin (index.html) et le server sont créés
 RUN npx medusa build
 
+# IMPORTANT: Installer les dépendances dans .medusa/server (documentation officielle)
+WORKDIR /app/.medusa/server
+RUN yarn install --frozen-lockfile
+
 # --- Étape 3 : Runner (Production) ---
 FROM base AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 
 # COPIE CRITIQUE : On ramène tout ce qui est nécessaire
-COPY --from=builder /app/.medusa ./.medusa
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json ./package.json
+COPY --from=builder /app/.medusa/server ./.medusa/server
 COPY --from=builder /app/medusa-config.ts ./medusa-config.ts
-# C'est cette ligne qui te manque actuellement :
 COPY --from=builder /app/tsconfig.json ./tsconfig.json
 
 # Permissions
@@ -45,5 +46,6 @@ USER medusa
 
 EXPOSE 9000
 
-# Démarrage
+# IMPORTANT: Exécuter depuis .medusa/server (documentation officielle)
+WORKDIR /app/.medusa/server
 CMD npx medusa db:migrate && npx medusa start
