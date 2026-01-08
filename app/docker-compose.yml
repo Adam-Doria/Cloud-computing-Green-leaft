@@ -41,7 +41,7 @@ services:
     restart: unless-stopped
     environment:
       # URL publique pour le navigateur (via le Load Balancer ou Caddy)
-      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:8000
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost
       # URL interne pour le SSR (Server Side Rendering)
       - MEDUSA_BACKEND_URL=http://medusa-backend:9000
       - NEXT_PUBLIC_BASE_URL=http://localhost

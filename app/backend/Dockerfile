@@ -34,7 +34,10 @@ COPY --from=builder /app/tsconfig.json ./tsconfig.json
 # Sécurité : utilisateur non-root
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 medusa
+RUN chown -R medusa:nodejs /app
 USER medusa
+
+RUN yarn build
 
 EXPOSE 9000
 
