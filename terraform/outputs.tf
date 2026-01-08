@@ -78,3 +78,8 @@ output "data_security_group_id" {
   description = "ID du Security Group data"
   value       = aws_security_group.data_sg.id
 }
+
+output "launch_template_id" {
+  description = "ID du Launch Template créé"
+  value       = aws_launch_template.app.id
+}

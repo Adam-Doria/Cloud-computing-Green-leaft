@@ -54,3 +54,27 @@ variable "redis_engine_version" {
   type        = string
   default     = "7.0"
 }
+
+// S3 / R2 Cloudflare Configuration
+variable "s3_url" {
+  description = "Endpoint S3 ou Cloudflare R2"
+  type        = string
+}
+
+variable "s3_access_key" {
+  description = "Access Key ID pour S3/R2"
+  type        = string
+  sensitive   = true
+}
+
+variable "s3_secret_key" {
+  description = "Secret Access Key pour S3/R2"
+  type        = string
+  sensitive   = true
+}
+
+variable "repo_branch" {
+  description = "Branche Git à cloner"
+  type        = string
+  default     = "main"
+}
