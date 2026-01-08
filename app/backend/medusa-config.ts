@@ -29,6 +29,13 @@ module.exports = defineConfig({
         disable: false,
         path: `/app`,
         backendUrl: process.env.MEDUSA_BACKEND_URL,
+        vite: () => {
+            return {
+                server: {
+                    allowedHosts: ['.amazonaws.com'],
+                },
+            }
+        },
     },
     modules: [
         // Configuration du stockage S3 (Cloudflare R2)

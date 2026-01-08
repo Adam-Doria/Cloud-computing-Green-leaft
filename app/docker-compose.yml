@@ -19,6 +19,7 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+      - MEDUSA_WORKER_MODE=shared
       # Base de données (injecté par le .env généré par Terraform)
       - DATABASE_URL=${DATABASE_URL}
       # Redis (injecté par le .env généré par Terraform)

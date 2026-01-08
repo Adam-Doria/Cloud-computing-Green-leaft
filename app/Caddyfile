@@ -6,6 +6,12 @@
     handle /admin/* {
         reverse_proxy medusa-backend:9000
     }
+    handle /auth/* {
+        reverse_proxy medusa-backend:9000
+    }
+    handle /app/* {
+        reverse_proxy medusa-backend:9000
+    }
 
     # Le reste (frontend)
     handle {
