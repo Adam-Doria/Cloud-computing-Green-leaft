@@ -7,7 +7,6 @@ COPY package.json yarn.lock ./
 
 # Ajout des modules Redis et S3 nécessaires pour la Prod
 RUN yarn add @medusajs/file-s3 @medusajs/event-bus-redis @medusajs/cache-redis
-RUN yarn install --frozen-lockfile
 
 # --- Builder ---
 FROM base AS builder
