@@ -29,7 +29,8 @@ S3_URL=${s3_url}
 S3_ACCESS_KEY_ID=${s3_key}
 S3_SECRET_ACCESS_KEY=${s3_secret}
 PORT=9000
-# Ajoutez ici d'autres variables si nécessaire (ex: JWT_SECRET, COOKIE_SECRET)
+MEDUSA_PUBLISHABLE_KEY=${publishable_key}
+NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${publishable_key}
 EOF
 
 echo "🚀 5. Lancement de l'Application..."

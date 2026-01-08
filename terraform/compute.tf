@@ -28,6 +28,7 @@ resource "aws_launch_template" "app" {
     s3_key    = var.s3_access_key
     s3_secret = var.s3_secret_key
     branch_name = var.repo_branch
+    publishable_key = var.medusa_publishable_key
   }))
 
   # Tags pour les instances EC2 créées par ce template

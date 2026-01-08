@@ -78,3 +78,9 @@ variable "repo_branch" {
   type        = string
   default     = "main"
 }
+
+variable "medusa_publishable_key" {
+  description = "La clé publique Medusa (définie par nous)"
+  type        = string
+  sensitive = true
+}

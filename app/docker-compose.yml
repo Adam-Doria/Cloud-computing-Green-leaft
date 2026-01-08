@@ -34,6 +34,7 @@ services:
       - STORE_CORS=http://localhost,http://caddy,http://medusa-storefront:8000,http://${LB_DNS_NAME:-localhost}
       - ADMIN_CORS=http://localhost,http://caddy,http://medusa-storefront:8000
       - AUTH_CORS=http://localhost,http://caddy,http://medusa-storefront:8000
+      - MEDUSA_PUBLISHABLE_KEY=${MEDUSA_PUBLISHABLE_KEY}
 
   medusa-storefront:
     build: ./storefront
@@ -44,6 +45,7 @@ services:
       # URL interne pour le SSR (Server Side Rendering)
       - MEDUSA_BACKEND_URL=http://medusa-backend:9000
       - NEXT_PUBLIC_BASE_URL=http://localhost
+      - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY}
 
 volumes:
   caddy_data:

@@ -13,6 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Désactiver la télémétrie Next.js
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_dummy_build_key
 RUN yarn build
 
 # --- Runner ---
