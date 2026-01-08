@@ -3,12 +3,12 @@ resource "aws_security_group" "app_sg" {
   description = "Security Group pour les instances applicatives Medusa"
   vpc_id      = aws_vpc.main.id
 
-  # HTTP depuis l'ALB (sera configuré plus tard)
+  # HTTP depuis l'ALB
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"] # Temporaire, sera restreint à l'ALB SG
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
   }
 
   # SSH pour debug (peut être restreint ou supprimé en prod)
@@ -28,6 +28,34 @@ resource "aws_security_group" "app_sg" {
 
   tags = {
     Name        = "greenleaf-groupe2-app-sg"
+    Environment = var.environment
+  }
+}
+
+resource "aws_security_group" "alb_sg" {
+  name        = "greenleaf-groupe2-alb-sg"
+  description = "Autorise le trafic HTTP entrant depuis Internet"
+  vpc_id      = aws_vpc.main.id
+
+  # Entrée : Tout Internet (Port 80)
+  ingress {
+    description = "HTTP from Internet"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Sortie : Tout autorisé
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name        = "greenleaf-groupe2-alb-sg"
     Environment = var.environment
   }
 }

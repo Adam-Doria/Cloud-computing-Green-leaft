@@ -54,3 +54,9 @@ variable "redis_engine_version" {
   type        = string
   default     = "7.0"
 }
+
+// Monitoring
+variable "alert_email" {
+  description = "Email pour recevoir les alertes FinOps et Techniques"
+  type        = string
+}
