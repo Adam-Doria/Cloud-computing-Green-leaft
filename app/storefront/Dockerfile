@@ -13,10 +13,19 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Désactiver la télémétrie Next.js
 ENV NEXT_TELEMETRY_DISABLED=1
+# Variables pour le build
 ENV NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=pk_dummy_build_key
 ENV NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://localhost:9000
-ENV NEXT_SKIP_PRERENDERS=1
-RUN yarn build || echo "Build completed with warnings"
+# Démarrer un serveur fake (python) pour répondre 200 OK aux appels de build
+RUN apk add --no-cache python3 && \
+    python3 -c "from http.server import BaseHTTPRequestHandler, HTTPServer; \
+    class Simple(BaseHTTPRequestHandler): \
+        def do_GET(self): self.send_response(200); self.end_headers(); self.wfile.write(b'{}'); \
+    HTTPServer(('localhost', 9000), Simple).serve_forever()" & \
+    PID=$! && \
+    sleep 3 && \
+    yarn build && \
+    kill $PID
 
 # --- Runner ---
 FROM base AS runner
