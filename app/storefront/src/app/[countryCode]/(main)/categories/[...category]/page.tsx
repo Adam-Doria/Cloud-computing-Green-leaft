@@ -42,8 +42,7 @@ export async function generateStaticParams() {
 
         return staticParams || []
     } catch (error) {
-        // Si le backend n'est pas accessible (ex: build Docker), on retourne un tableau vide.
-        // Next.js générera les pages à la volée lors de la première visite.
+        // Protection pour le build Docker : si le backend est absent, on ignore
         return []
     }
 }
