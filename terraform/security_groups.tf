@@ -69,3 +69,28 @@ resource "aws_security_group" "data_sg" {
     Environment = var.environment
   }
 }
+
+# Security Group pour l'ALB (Rectangle orange du schéma)
+resource "aws_security_group" "alb_sg" {
+  name        = "greenleaf-groupe2-alb-sg"
+  description = "Autorise le trafic HTTP entrant depuis Cloudflare"
+  vpc_id      = aws_vpc.main.id
+
+  # Trafic entrant HTTP (Port 80)
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"] # Reçoit le flux filtré par Cloudflare
+  }
+
+  # Trafic sortant vers les instances applicatives
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = { Name = "greenleaf-groupe2-alb-sg" }
+}
