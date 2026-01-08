@@ -22,7 +22,7 @@ resource "aws_launch_template" "app" {
 
   # Script de démarrage
   user_data = base64encode(templatefile("${path.module}/../scripts/user_data.sh.tpl", {
-    db_url    = "postgres://${var.db_username}:${urlencode(var.db_password)}@${aws_db_instance.postgres.endpoint}/${var.db_name}?ssl=true"
+    db_url    = "postgres://${var.db_username}:${urlencode(var.db_password)}@${aws_db_instance.postgres.endpoint}/${var.db_name}"
     redis_url = "redis://${aws_elasticache_cluster.redis.cache_nodes[0].address}:6379"
     s3_url    = var.s3_url
     s3_key    = var.s3_access_key
