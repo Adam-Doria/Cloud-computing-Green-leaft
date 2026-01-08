@@ -54,3 +54,21 @@ variable "redis_engine_version" {
   type        = string
   default     = "7.0"
 }
+
+//Cloudflare
+variable "cloudflare_api_token" {
+  description = "Token API Cloudflare pour gérer R2"
+  type        = string
+  sensitive   = true
+}
+
+variable "cloudflare_account_id" {
+  description = "ID du compte Cloudflare"
+  type        = string
+}
+
+variable "r2_bucket_name" {
+  description = "Nom du bucket R2"
+  type        = string
+  default     = "greanleaft-groupe2-bucket"
+}
