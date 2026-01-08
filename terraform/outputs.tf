@@ -78,3 +78,9 @@ output "data_security_group_id" {
   description = "ID du Security Group data"
   value       = aws_security_group.data_sg.id
 }
+
+# --- Ajout Ticket ALB ---
+output "alb_dns_name" {
+  description = "L'URL DNS publique du Load Balancer (A mettre dans Cloudflare CNAME)"
+  value       = aws_lb.main.dns_name
+}

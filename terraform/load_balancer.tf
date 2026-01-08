@@ -21,12 +21,18 @@ resource "aws_lb_target_group" "app" {
   protocol = "HTTP"
   vpc_id   = aws_vpc.main.id
 
+  # AC : Health Checks (Critique)
   health_check {
-    path                = "/"
+    enabled  = true
+    path     = "/"
+    port     = "traffic-port"
+    protocol = "HTTP"
+
     healthy_threshold   = 2
-    unhealthy_threshold = 10
+    unhealthy_threshold = 2
     timeout             = 5
     interval            = 30
+    matcher             = "200-399" # Succès si code HTTP 2xx ou 3xx
   }
 }
 
