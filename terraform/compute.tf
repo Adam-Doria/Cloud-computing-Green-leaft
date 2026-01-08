@@ -1,7 +1,7 @@
 resource "aws_launch_template" "app" {
   name_prefix   = "greenleaf-lt-${var.environment}-"
   image_id      = data.aws_ami.amazon_linux_2023.id # Défini dans nat_instances.tf
-  instance_type = "t3.small"
+  instance_type = "t3.medium"
 
   block_device_mappings {
     device_name = "/dev/xvda"
