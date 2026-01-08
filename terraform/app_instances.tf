@@ -1,10 +1,12 @@
 # Instance Medusa - Zone A
 resource "aws_instance" "medusa_a" {
-  ami           = data.aws_ami.amazon_linux_2023.id
-  instance_type = "t3.medium" # Requis pour Medusa
-  subnet_id     = aws_subnet.private_app_a.id
-  vpc_security_group_ids = [aws_security_group.app_sg.id]
-  key_name      = "key_pair_group2_instances_medusa" # Remplace par le nom de ta clé existante
+  launch_template {
+    id      = aws_launch_template.app.id
+    version = "$Latest"
+  }
+
+  # Surcharge réseau spécifique à cette instance
+  subnet_id = aws_subnet.private_app_a.id
 
   tags = {
     Name        = "greenleaf-groupe2-medusa-a"
@@ -12,13 +14,14 @@ resource "aws_instance" "medusa_a" {
   }
 }
 
-# Instance Medusa - Zone B (Haute Disponibilité)
+# Instance Medusa - Zone B
 resource "aws_instance" "medusa_b" {
-  ami           = data.aws_ami.amazon_linux_2023.id
-  instance_type = "t3.medium"
-  subnet_id     = aws_subnet.private_app_b.id
-  vpc_security_group_ids = [aws_security_group.app_sg.id]
-  key_name      = "key_pair_group2_instances_medusa"
+  launch_template {
+    id      = aws_launch_template.app.id
+    version = "$Latest"
+  }
+
+  subnet_id = aws_subnet.private_app_b.id
 
   tags = {
     Name        = "greenleaf-groupe2-medusa-b"
