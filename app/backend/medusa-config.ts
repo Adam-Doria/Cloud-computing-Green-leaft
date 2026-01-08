@@ -25,6 +25,11 @@ module.exports = defineConfig({
             cookieSecret: process.env.COOKIE_SECRET || "supersecret",
         }
     },
+    admin: {
+        disable: false,
+        path: `/app`,
+        backendUrl: process.env.MEDUSA_BACKEND_URL,
+    },
     modules: [
         // Configuration du stockage S3 (Cloudflare R2)
         {
