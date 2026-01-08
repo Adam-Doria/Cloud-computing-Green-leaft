@@ -1,0 +1,112 @@
+# Template : Document d'Architecture Technique (DAT)
+
+**Projet :** 
+
+**Auteurs :** 
+
+**Date :** 
+
+**Version :** 1.0
+
+---
+
+## 1. Introduction
+
+*Objectif du document, résumé du besoin de la startup et de la mission de votre équipe.*
+
+## 2. Vue d'Ensemble de l'Architecture
+
+*Insérez ici le schéma d'architecture final que vous avez conçu. Ce schéma doit être clair, lisible et inclure tous les services utilisés et les flux de communication principaux.*
+
+### 2.1. Justification des Choix d'Architecture
+
+*Expliquez les grandes décisions qui ont guidé votre conception. Pourquoi cette architecture ? En quoi répond-elle aux exigences de haute disponibilité, de scalabilité et de sécurité ?*
+
+## 3. Description Détaillée des Services
+
+*Pour chaque service utilisé, créez un sous-titre et décrivez précisément sa configuration.*
+
+### 3.1. Réseau 
+
+- **CIDR Block :**
+
+- **Sous-réseaux :** (Liste des sous-réseaux, leurs CIDR, et leur type : public/privé)
+
+- **Tables de Routage :** (Description des routes principales)
+
+- **Internet Gateway / NAT Gateway :** (Si une NAT Gateway est utilisée, justifiez son besoin et son coût)
+
+### 3.2. Calcul (EC2 & Auto Scaling)
+
+- **Type d'instance :** (ex: t3.medium). Justifiez ce choix (performance vs. coût).
+
+- **AMI utilisée :**
+
+- **Configuration du Groupe Auto Scaling :** (Capacité min/max/désirée, politique de scaling)
+
+- **Modèle de Lancement :** (Description des `user_data`)
+
+### 3.3. Équilibrage de Charge
+
+- **Listeners :** (HTTP/HTTPS)
+
+- **Règles de routage :**
+
+- **Configuration du Groupe Cible :** (Protocole, port, health checks)
+
+### 3.4. Base de Données
+
+- **Moteur et version :** (ex: MySQL 8.0)
+
+- **Type d'instance :** Justifiez.
+
+- **Configuration Multi-AZ :** (Activée/Désactivée). Justifiez.
+
+### 3.5. Cache (ElastiCache)
+
+- **Moteur :** (Redis)
+
+- **Type de nœud :** (ex: cache.t3.small). Justifiez.
+
+- **Cas d'usage :** (Cache de session, cache de page, etc.)
+
+### 3.6. Stockage (S3)
+
+- **Nom du bucket :**
+
+- **Configuration :** (Politique de bucket, blocage de l'accès public, versioning)
+
+### 3.7. CDN (CloudFront)
+
+- **Origines :** (Bucket S3, ALB)
+
+- **Comportements de cache :** (TTL, gestion des cookies/headers)
+
+- **Objet racine par défaut :**
+
+## 4. Sécurité
+
+### 4.1. Groupes de Sécurité
+
+*Décrivez les principaux groupes de sécurité et leurs règles de trafic entrant/sortant. Un tableau est recommandé.*
+
+### 4.2. Gestion des Identités (IAM)
+
+*Décrivez les rôles IAM que vous avez créés et les politiques attachées. Expliquez comment ils permettent aux services de communiquer de manière sécurisée.*
+
+### 4.3. Sécurité des Données
+
+- **Chiffrement au repos :** (Comment les données sont-elles chiffrées sur RDS, S3 ?)
+
+- **Chiffrement en transit :** (Utilisation de HTTPS, SSL/TLS)
+
+## 5. Monitoring et Logging
+
+- **Stratégie de surveillance :** (Quelles sont les métriques clés surveillées dans CloudWatch ?)
+
+- **Alarmes configurées :** (Liste des alarmes et leurs seuils)
+
+- **Gestion des logs :** (Où les logs applicatifs et système sont-ils stockés ?)
+
+---
+
