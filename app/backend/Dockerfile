@@ -53,4 +53,4 @@ EXPOSE 9000
 WORKDIR /app/.medusa/server
 
 # On lance le seed compilé (.js)
-CMD npx medusa db:migrate && npx medusa && npx medusa start
+CMD npx medusa db:migrate && npx medusa start
