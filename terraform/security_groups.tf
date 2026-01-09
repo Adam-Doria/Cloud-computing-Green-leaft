@@ -9,7 +9,7 @@ resource "aws_security_group" "app_sg" {
     to_port         = 80
     protocol        = "tcp"
     security_groups = [aws_security_group.alb_sg.id]
-    description     = "HTTP depuis l'ALB"
+    description     = "HTTP depuis ALB"
   }
 
   # SSH pour debug (peut être restreint ou supprimé en prod)
