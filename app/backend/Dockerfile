@@ -27,8 +27,8 @@ RUN npx medusa build
 RUN npx tsc src/scripts/seed.ts \
     --outDir .medusa/server/src/scripts \
     --target es2020 \
-    --module commonjs \
-    --moduleResolution node \
+    --module node16 \
+    --moduleResolution node16 \
     --allowSyntheticDefaultImports \
     --skipLibCheck \
     --esModuleInterop \
