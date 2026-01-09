@@ -1,6 +1,6 @@
 resource "aws_security_group" "alb_sg" {
   name        = "greenleaf-groupe2-alb-sg"
-  description = "Security Group pour l'ALB"
+  description = "Security Group pour ALB"
   vpc_id      = aws_vpc.main.id
 
   ingress {
