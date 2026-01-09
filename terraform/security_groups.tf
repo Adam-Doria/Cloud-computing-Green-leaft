@@ -5,10 +5,11 @@ resource "aws_security_group" "app_sg" {
 
   # HTTP depuis l'ALB (sera configuré plus tard)
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["10.0.0.0/16"] # Temporaire, sera restreint à l'ALB SG
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
+    description     = "HTTP depuis l'ALB"
   }
 
   # SSH pour debug (peut être restreint ou supprimé en prod)
