@@ -1,20 +1,7 @@
 :80 {
     # On utilise 'handle' pour garder le prefixe /store ou /admin
-    handle /store/* {
-        reverse_proxy medusa-backend:9000
-    }
-    handle /admin/* {
-        reverse_proxy medusa-backend:9000
-    }
-    handle /auth/* {
-        reverse_proxy medusa-backend:9000
-    }
-    handle /app/* {
-        reverse_proxy medusa-backend:9000
-    }
-
-    # Le reste (frontend)
+    # Tout le trafic vers le backend (API + Admin)
     handle {
-        reverse_proxy medusa-storefront:8000
+        reverse_proxy medusa-backend:9000
     }
 }

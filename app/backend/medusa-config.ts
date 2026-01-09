@@ -28,10 +28,18 @@ module.exports = defineConfig({
         disable: false,
         path: "/app",
         backendUrl: process.env.MEDUSA_BACKEND_URL,
-        vite: () => {
+        vite: (config) => {
             return {
+                ...config,
                 server: {
-                    allowedHosts: ['.amazonaws.com', 'localhost'],
+                    ...config.server,
+                    host: "0.0.0.0",
+                    allowedHosts: ['.amazonaws.com', 'localhost', '127.0.0.1', 'medusa-backend', 'domaine-du-client.com'],
+                    hmr: {
+                        ...config.server?.hmr,
+                        port: 5173,
+                        clientPort: 5173,
+                    },
                 },
             }
         },

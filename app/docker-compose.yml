@@ -1,0 +1,61 @@
+services:
+  medusa-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      target: runner
+    container_name: medusa-backend
+    restart: always
+    env_file:
+      - .env
+    networks:
+      - medusa-network
+
+  caddy:
+    image: caddy:2
+    container_name: caddy
+    restart: always
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - medusa-backend
+    networks:
+      - medusa-network
+
+  # Services externes (optionnels si RDS/ElastiCache utilisés, mais utiles pour debug/fallback)
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-medusa-db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - medusa-network
+    # On ne lance postgres que si on n'utilise pas RDS (à gérer via profiles potentiellement, ou laisser tourner à vide)
+    profiles:
+      - local
+
+  redis:
+    image: redis:alpine
+    container_name: redis
+    networks:
+      - medusa-network
+    profiles:
+      - local
+
+networks:
+  medusa-network:
+    driver: bridge
+
+volumes:
+  caddy_data:
+  caddy_config:
+  postgres_data:
